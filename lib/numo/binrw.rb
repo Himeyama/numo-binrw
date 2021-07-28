@@ -3,8 +3,9 @@
 require_relative "binrw/version"
 
 module Numo
-  module Binrw
-    class Error < StandardError; end
-    # Your code goes here...
-  end
+    module Binrw
+        class Error < StandardError; end
+    end
 end
+
+require "numo/binrw.so"
