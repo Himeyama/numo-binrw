@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Murata Mitsuharu"]
   spec.email         = ["hikari.photon+mygit@gmail.com"]
 
-  spec.summary       = "Write a short summary, because RubyGems requires one."
-  spec.description   = "Write a longer description or delete this line."
+  spec.summary       = "Read binary files and handle them with `NArray`."
+  spec.description   = "Read binary files and handle them with `NArray`."
   spec.homepage      = "https://github.com/himeyama/numo-binrw"
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 2.4.0"
@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rake", ">= 12.3.3"
   spec.add_development_dependency "rake-compiler", "~> 1.1.1"
+  spec.add_development_dependency "numo-narray", "~> 0.9.2.0"
 end
