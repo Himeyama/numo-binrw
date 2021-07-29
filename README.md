@@ -43,12 +43,7 @@ e = Numo::Int32.bin_read(["idata01.bin", "idata02.bin", "idata03.bin", "idata04.
 p e
 ```
 
-## To do
-- rubygems に公開
-
 ## インストール
 ```sh
-git clone https://github.com/Himeyama/numo-binrw.git
-cd numo-binrw
-rake install
+gem install numo-binrw
 ```
