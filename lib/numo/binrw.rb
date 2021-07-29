@@ -29,6 +29,26 @@ module Numo
         end
 
         def self.bin_read(cls, filename)
+            if filename.is_a? Array
+                unless filename.map{|file| File.stat(file).size}.uniq.size == 1
+                    raise "The size of all data must be the same"
+                end
+                row = filename.size
+                size = File.stat(filename[0]).size
+                if cls == DFloat || cls == Int64
+                    col = size / 8
+                elsif cls == SFloat || cls == Int32
+                    col = size / 4
+                else
+                    raise "Unsupported class"
+                end
+                a = cls.zeros(row, col)
+                filename.each.with_index do |file, i|
+                    a[i, true] = bin_read(cls, file)
+                end
+                return a
+            end
+
             Numo::Binrw._bin_read(cls, filename)
         end
     end
