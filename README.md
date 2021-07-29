@@ -1,6 +1,6 @@
 # numo-binrw
 
-[![build](https://github.com/Himeyama/numo-binrw/actions/workflows/build.yml/badge.svg)](https://github.com/Himeyama/numo-binrw/actions/workflows/build.yml)
+[![build](https://github.com/Himeyama/numo-binrw/actions/workflows/build.yml/badge.svg)](https://github.com/Himeyama/numo-binrw/actions/workflows/build.yml) [![Gem Version](https://badge.fury.io/rb/numo-binrw.svg)](https://badge.fury.io/rb/numo-binrw)
 
 ## 開発状況
 - [x] 書き込み
