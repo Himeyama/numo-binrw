@@ -1,10 +1,8 @@
 #include <stdbool.h>
-#include <pthread.h>
 #include <ruby.h>
 #include <numo/narray.h>
 
-
-extern VALUE numo_cDFloat;
+#define rb_is_a(obj, cls) (rb_funcall(obj, rb_intern("is_a?"), 1, cls) == Qtrue)
 
 struct bin_write_arg_ret{
     const char* filename;
@@ -27,35 +25,56 @@ void bin_write(struct bin_write_arg_ret* st){
 }
 
 
-VALUE nrw_dfloat_bin_write(VALUE self, VALUE filename){
+VALUE nrw_bin_write(VALUE self, VALUE obj, VALUE filename){
     char* cfilename;
-    double* data = (double*)na_get_pointer(self);
-    long size = NUM2LONG(rb_funcall(self, rb_intern("size"), 0));
+    void* data = na_get_pointer(obj);
+    long size = NUM2LONG(rb_funcall(obj, rb_intern("size"), 0));
 
-    if(rb_funcall(filename, rb_intern("is_a?"), 1, rb_cArray) == Qtrue){
+    if(rb_is_a(filename, rb_cArray)){
         long row = NUM2LONG(rb_funcall(filename, rb_intern("size"), 0));
         long col = size / row;
         struct bin_write_arg_ret st[row];
-        pthread_t threads[row];
         for(long i = 0; i < row; i++){
             VALUE file = rb_ary_entry(filename, i);
             cfilename = StringValuePtr(file);
             st[i].filename = cfilename;
-            st[i].data = data + col * i;
             st[i].size = col;
-            st[i].ssize = sizeof(double);
-            if(pthread_create(threads + i, NULL, (void*)bin_write, (void*)(st + i)))
-                return Qfalse;
+            if(rb_is_a(obj, numo_cDFloat)){
+                st[i].data = (double*)data + col * i;
+                st[i].ssize = 8;
+            }else if(rb_is_a(obj, numo_cSFloat)){
+                st[i].data = (float*)data + col * i;
+                st[i].ssize = 4;
+            }else if(rb_is_a(obj, numo_cInt32)){
+                st[i].data = (int32_t*)data + col * i;
+                st[i].ssize = 4;
+            }else if(rb_is_a(obj, numo_cInt64)){
+                st[i].data = (int64_t*)data + col * i;
+                st[i].ssize = 8;
+            }else{
+                return Qfalse; // 未対応クラス
+            }
+            bin_write(st + i);
         }
-        for(long i = 0; i < row; i++){
-            if(pthread_join(threads[i], NULL))
-                return Qfalse;
-        }
-    }else if(rb_funcall(filename, rb_intern("is_a?"), 1, rb_cString) == Qtrue){
+    }else if(rb_is_a(filename, rb_cString)){
         cfilename = StringValuePtr(filename);
-        struct bin_write_arg_ret st = {cfilename, data, size, sizeof(double), false};
+        struct bin_write_arg_ret st;
+        st.filename = cfilename;
+        st.size = size;
+        st.data = data;
+        if(rb_is_a(obj, numo_cDFloat)){
+            st.ssize = 8;
+        }else if(rb_is_a(obj, numo_cSFloat)){
+            st.ssize = 4;
+        }else if(rb_is_a(obj, numo_cInt32)){
+            st.ssize = 4;
+        }else if(rb_is_a(obj, numo_cInt64)){
+            st.ssize = 8;
+        }else{
+            return Qfalse; // 未対応クラス
+        }
         bin_write(&st);
     }
 
-    return self;
+    return obj;
 }

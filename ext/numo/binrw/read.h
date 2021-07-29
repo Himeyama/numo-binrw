@@ -1,6 +1,6 @@
 #ifndef READ_H
 #define READ_H
 
-VALUE nrw_dfloat_bin_read();
+VALUE nrw_bin_read();
 
 #endif

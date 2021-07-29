@@ -3,6 +3,6 @@
 
 extern VALUE numo_cDFloat;
 
-VALUE nrw_dfloat_bin_read(VALUE self){
+VALUE nrw_bin_read(VALUE self){
     return Qnil;
 }
