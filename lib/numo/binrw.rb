@@ -27,11 +27,19 @@ module Numo
             Numo::Binrw._bin_write(obj, filename)
             obj
         end
+
+        def self.bin_read(cls, filename)
+            Numo::Binrw._bin_read(cls, filename)
+        end
     end
 
     class DFloat
         def bin_write(filename)
             Numo::Binrw.bin_write(self, filename)
+        end
+
+        def self.bin_read(filename)
+            Numo::Binrw.bin_read(self, filename)
         end
     end
 
@@ -39,17 +47,29 @@ module Numo
         def bin_write(filename)
             Numo::Binrw.bin_write(self, filename)
         end
+
+        def self.bin_read(filename)
+            Numo::Binrw.bin_read(self, filename)
+        end
     end
 
     class Int32
         def bin_write(filename)
             Numo::Binrw.bin_write(self, filename)
         end
+
+        def self.bin_read(filename)
+            Numo::Binrw.bin_read(self, filename)
+        end
     end
 
     class Int64
         def bin_write(filename)
             Numo::Binrw.bin_write(self, filename)
+        end
+
+        def self.bin_read(filename)
+            Numo::Binrw.bin_read(self, filename)
         end
     end
 end

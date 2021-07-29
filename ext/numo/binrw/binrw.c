@@ -18,7 +18,5 @@ void Init_binrw(void){
     rb_cBinrw = rb_define_module_under(rb_mNumo, "Binrw");
     rb_define_module_function(rb_cBinrw, "_bin_write", nrw_bin_write, 2);
 
-    rb_define_singleton_method(numo_cDFloat, "_bin_read", nrw_bin_read, 1);
-    rb_define_singleton_method(numo_cSFloat, "_bin_read", nrw_bin_read, 1);
-    
+    rb_define_module_function(rb_cBinrw, "_bin_read", nrw_bin_read, 2);
 }
