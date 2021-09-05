@@ -27,6 +27,7 @@ void bin_write(struct bin_write_arg_ret* st){
 
 VALUE nrw_bin_write(VALUE self, VALUE obj, VALUE filename){
     char* cfilename;
+    obj = rb_funcall(obj, rb_intern("copy"), 0);
     void* data = na_get_pointer(obj);
     long size = NUM2LONG(rb_funcall(obj, rb_intern("size"), 0));
 
